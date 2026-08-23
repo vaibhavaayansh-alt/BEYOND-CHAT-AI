@@ -1,105 +1,72 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BEYOND CHAT AI - Full</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BEYOND CHAT AI - PRO</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{background:#050505;color:#fff;font-family:system-ui;display:flex;height:100vh;overflow:hidden}
-.sidebar{width:260px;background:#0f0f0f;border-right:1px solid #222;padding:16px;display:flex;flex-direction:column;gap:8px;overflow:auto}
-.logo{font-weight:900;font-size:22px;letter-spacing:2px;text-align:center;margin-bottom:10px}
-.navbtn{padding:12px 14px;background:#1a1a1a;border-radius:10px;cursor:pointer;border:1px solid transparent;text-align:left}
-.navbtn.active{background:#fff;color:#000;font-weight:700}
-.main{flex:1;overflow:auto;padding:20px}
-.topTabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-.topTabs div{padding:8px 14px;background:#1a1a1a;border-radius:20px;cursor:pointer;border:1px solid #222;font-size:13px}
-.topTabs div.active{background:#fff;color:#000}
-.card{background:#111;border:1px solid #222;border-radius:16px;padding:16px;margin-bottom:16px}
-input,textarea{width:100%;padding:12px;border-radius:10px;border:none;background:#1e1e1e;color:#fff;outline:none;margin-top:8px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
-.s{padding:10px;background:#1e1e1e;border-radius:10px;text-align:center;cursor:pointer;border:2px solid transparent;font-size:12px}
-.s.active{border-color:#fff;background:#2a2a2a}
-.btn{padding:12px 16px;background:#fff;color:#000;border:none;border-radius:10px;font-weight:700;cursor:pointer;margin-top:10px;width:100%}
-.pro{font-size:11px;color:#888}.badge{background:#222;padding:4px 8px;border-radius:10px;font-size:11px}
-#chatBox{height:300px;overflow:auto;background:#0a0a0a;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px}
-.msg{padding:8px 12px;border-radius:12px;max-width:80%}.user{align-self:flex-end;background:#fff;color:#000}.ai{align-self:flex-start;background:#1e1e1e}
-.hidden{display:none}
-@media(max-width:768px){body{flex-direction:column}.sidebar{width:100%;flex-direction:row;flex-wrap:wrap}.main{height:70vh}}
+body{margin:0;background:#0e0e0e;color:#fff;font-family:sans-serif;display:flex}
+.sidebar{width:230px;background:#161616;height:100vh;padding:15px}
+.menu{padding:10px;border-radius:8px;cursor:pointer;margin:4px 0}
+.menu:hover{background:#2a2a2a}
+.active{background:#2a2a2a}
+.main{flex:1;padding:15px}
+.top button{background:#222;border:1px solid #333;color:#fff;padding:7px 14px;border-radius:20px;margin:3px;cursor:pointer}
+.top .activeBtn{background:#fff;color:#000}
+.chatBox{background:#1a1a1a;border-radius:12px;padding:15px;min-height:450px;overflow-y:auto}
+input{width:100%;padding:14px;background:#222;border:none;border-radius:10px;color:#fff;margin-top:10px}
+#send{width:100%;padding:14px;background:#fff;color:#000;font-weight:bold;border-radius:10px;margin-top:10px;border:none}
+.user{ text-align:right; margin:10px 0 } .user span{background:#fff;color:#000;padding:8px 12px;border-radius:14px}
+.ai{ background:#222;padding:10px;border-radius:10px;margin:10px 0 }
 </style>
 </head>
 <body>
 <div class="sidebar">
-<div class="logo">BEYOND CHAT AI</div>
-<div class="navbtn active" onclick="show('chat')">💬 AI Chat</div>
-<div class="navbtn" onclick="show('study')">📚 Study</div>
-<div class="navbtn" onclick="show('research')">🔬 Research</div>
-<div class="navbtn" onclick="show('deep')">🧠 Deep Think</div>
-<div class="navbtn" onclick="show('create')">🎨 Create / Image</div>
-<div class="navbtn" onclick="show('projects')">📁 Projects</div>
-<div class="navbtn" onclick="show('library')">📖 Library / Memory</div>
-<div class="navbtn" onclick="show('agents')">🤖 Agents & Tools</div>
-<div class="navbtn" onclick="show('voice')">🎙️ Voice</div>
-<div class="navbtn" onclick="show('settings')">⚙️ Settings & Account</div>
-<div style="margin-top:10px"><span class="badge">FREE PLAN</span> <span class="badge">PRO 🔓</span><div class="pro" style="margin-top:6px">Secure • Deploy Ready • Responsive</div></div>
+<h3>BEYOND CHAT AI</h3>
+<div class="menu active">💬 AI Chat</div>
+<div class="menu">📚 Study</div>
+<div class="menu">🔬 Research</div>
+<div class="menu">🧠 Deep Think</div>
+<div class="menu">🎨 Create / Image</div>
+<div class="menu">📁 Projects</div>
+<div class="menu">📚 Library / Memory</div>
+<div class="menu">🤖 Agents & Tools</div>
+<div class="menu">🎙️ Voice</div>
+<div class="menu">⚙️ Settings & Account</div>
 </div>
-
 <div class="main">
-<div class="topTabs">
-<div class="active" onclick="show('study')">Study</div><div onclick="show('research')">Research</div><div onclick="show('deep')">Deep</div><div onclick="show('create')">Create</div><div onclick="show('chat')">Think</div><div onclick="show('chat')">Chat</div>
+<div class="top">
+<button onclick="setMode('study')" id="btn-study">Study</button>
+<button onclick="setMode('research')" id="btn-research">Research</button>
+<button onclick="setMode('deep')" id="btn-deep">Deep</button>
+<button onclick="setMode('create')" id="btn-create">Create</button>
+<button onclick="setMode('deep')" id="btn-think">Think</button>
+<button onclick="setMode('chat')" id="btn-chat" class="activeBtn">Chat</button>
 </div>
-
-<div id="chat" class="card">
-<h3>AI Chat - Think Mode</h3>
-<div id="chatBox"><div class="msg ai">Namaste! Main BEYOND CHAT AI hu. Kuch bhi pucho.</div></div>
-<textarea id="chatInput" placeholder="Yaha likho..."></textarea>
-<button class="btn" onclick="sendChat()">Send</button>
+<h3 id="title">AI Chat - Chat Mode</h3>
+<div class="chatBox" id="chat"><div class="ai">Hello! I am BEYOND CHAT AI PRO. All modes are active. Type your message in English.</div></div>
+<input id="msg" placeholder="Type your message here...">
+<button id="send" onclick="send()">Send</button>
 </div>
-
-<div id="study" class="card hidden"><h3>📚 Study Mode</h3><p class="pro">Kisi bhi topic ko simple me samjhao</p><input id="studyIn" placeholder="Ex: Quantum physics samjhao"><button class="btn" onclick="studyGo()">Study</button><div id="studyOut"></div></div>
-
-<div id="research" class="card hidden"><h3>🔬 Research Mode</h3><input id="resIn" placeholder="Ex: AI future 2026 research"><button class="btn" onclick="resGo()">Research</button><div id="resOut"></div></div>
-
-<div id="deep" class="card hidden"><h3>🧠 Deep Think</h3><textarea id="deepIn" placeholder="Complex problem likho..."></textarea><button class="btn" onclick="deepGo()">Deep Think</button><div id="deepOut"></div></div>
-
-<div id="create" class="card">
-<h3>🎨 Image Studio FREE</h3>
-<input id="prompt" placeholder="Kya banana hai? Ex: shiv ji, anime boy">
-<div class="grid">
-<div class="s active" onclick="setS(this,'realistic photo')">Realistic</div><div class="s" onclick="setS(this,'anime')">Anime</div><div class="s" onclick="setS(this,'3d render')">3D</div><div class="s" onclick="setS(this,'cyberpunk')">Cyberpunk</div><div class="s" onclick="setS(this,'cartoon')">Cartoon</div><div class="s" onclick="setS(this,'oil painting')">Oil</div><div class="s" onclick="setS(this,'fantasy art')">Fantasy</div><div class="s" onclick="setS(this,'logo design')">Logo</div>
-</div>
-<button class="btn" onclick="generate()">GENERATE IMAGE</button>
-<div id="result" style="margin-top:12px;text-align:center"></div>
-</div>
-
-<div id="projects" class="card hidden"><h3>📁 Projects</h3><input id="projName" placeholder="Project name"><button class="btn" onclick="saveProj()">Save Project</button><div id="projList"></div></div>
-
-<div id="library" class="card hidden"><h3>📖 Library & Memory</h3><p class="pro">Tumhari sari chats yahi save rahegi (local memory)</p><div id="memList"></div><button class="btn" onclick="clearMem()" style="background:#222;color:#fff">Clear Memory</button></div>
-
-<div id="agents" class="card hidden"><h3>🤖 Agents & Tools</h3><div class="grid"><div class="s">Writer Agent</div><div class="s">Coder Agent</div><div class="s">Image Agent</div><div class="s">Voice Agent</div><div class="s">Research Tool</div><div class="s">Translate Tool</div><div class="s">PDF Tool</div><div class="s">Web Search</div></div></div>
-
-<div id="voice" class="card hidden"><h3>🎙️ Voice Mode</h3><button class="btn" onclick="startVoice()">🎤 Bol ke likho</button><p id="voiceOut" class="pro"></p></div>
-
-<div id="settings" class="card hidden"><h3>⚙️ Settings & Account</h3><p>Account: vaibhavaayansh (FREE)</p><p>Responsive: Mobile / Tablet / Desktop ✅</p><p>Security: LocalStorage Safe ✅</p><p>Deploy: GitHub Pages Ready ✅</p><button class="btn" onclick="alert('PRO me sab unlock hai!')">Upgrade to PRO</button></div>
-
-</div>
-
 <script>
-let style="realistic photo";
-function show(id){document.querySelectorAll('.main.card').forEach(c=>c.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('.sidebar.navbtn').forEach(b=>b.classList.remove('active'));event.target.classList.add('active');}
-function setS(el,s){document.querySelectorAll('#create.s').forEach(x=>x.classList.remove('active'));el.classList.add('active');style=s;}
-function generate(){let p=document.getElementById('prompt').value.trim();let r=document.getElementById('result');if(!p){alert('Prompt likho bhai');return;}r.innerHTML='⏳ 5 sec ruko...';let url='https://image.pollinations.ai/prompt/'+encodeURIComponent(p+', '+style+', highly detailed, 8k')+'?n='+Date.now();let img=new Image();img.src=url;img.onload=()=>{r.innerHTML='<img src="'+url+'" style="width:100%;border-radius:12px">';saveMem('Image: '+p);};}
-
-function sendChat(){let i=document.getElementById('chatInput');let t=i.value.trim();if(!t)return;let box=document.getElementById('chatBox');box.innerHTML+='<div class="msg user">'+t+'</div>';saveMem('Chat: '+t);i.value='';setTimeout(()=>{box.innerHTML+='<div class="msg ai">BEYOND AI soch raha hai: "'+t+'" ke liye best answer yahi hai ki ispe deep research karke simple me samjhaya jaye. (Ye demo chat hai, PRO me real AI lagega)</div>';box.scrollTop=box.scrollHeight;},600);}
-
-function studyGo(){let v=document.getElementById('studyIn').value;document.getElementById('studyOut').innerHTML='📚 Study: '+v+' ko 5 points me samjha raha hu... 1) Basics 2) Example 3) Use 4) Trick 5) Revision';saveMem('Study: '+v);}
-function resGo(){let v=document.getElementById('resIn').value;document.getElementById('resOut').innerHTML='🔬 Research Result: '+v+' pe latest points (demo). PRO me real web search lagega.';saveMem('Research: '+v);}
-function deepGo(){let v=document.getElementById('deepIn').value;document.getElementById('deepOut').innerHTML='🧠 Deep Analysis: '+v+' ka step-by-step solution socha gaya.';saveMem('Deep: '+v);}
-function saveProj(){let n=document.getElementById('projName').value;if(!n)return;let list=JSON.parse(localStorage.getItem('projs')||'[]');list.push(n);localStorage.setItem('projs',JSON.stringify(list));showProjs();}
-function showProjs(){let list=JSON.parse(localStorage.getItem('projs')||'[]');document.getElementById('projList').innerHTML=list.map(p=>'• '+p).join('<br>');}
-function saveMem(t){let m=JSON.parse(localStorage.getItem('mem')||'[]');m.push(t);localStorage.setItem('mem',JSON.stringify(m));showMem();}
-function showMem(){let m=JSON.parse(localStorage.getItem('mem')||'[]');document.getElementById('memList').innerHTML=m.slice(-20).reverse().map(x=>'• '+x).join('<br>');document.getElementById('projList')&&showProjs();}
-function clearMem(){localStorage.clear();showMem();showProjs();}
-function startVoice(){let out=document.getElementById('voiceOut');if(!('webkitSpeechRecognition' in window)){out.innerText='Voice is browser me support nahi karta';return;}let rec=new webkitSpeechRecognition();rec.lang='hi-IN';rec.onresult=e=>{let txt=e.results[0][0].transcript;document.getElementById('chatInput').value=txt;out.innerText='Suna: '+txt;};rec.start();out.innerText='Sun raha hu... bolo';}
-showMem();showProjs();
+let mode='chat';
+const GROQ_KEY="PASTE_YOUR_GROQ_KEY_HERE";
+function setMode(m){mode=m; document.getElementById('title').innerText="AI Chat - "+m.toUpperCase()+" Mode"; document.querySelectorAll('.top button').forEach(b=>b.classList.remove('activeBtn')); let b=document.getElementById('btn-'+m); if(b) b.classList.add('activeBtn');}
+async function send(){
+ let i=document.getElementById('msg'), c=document.getElementById('chat'), t=i.value.trim(); if(!t) return;
+ c.innerHTML+=`<div class="user"><span>${t}</span></div>`; i.value=""; c.innerHTML+=`<div id="th" class="ai">BEYOND AI thinking in ${mode} mode...</div>`;
+ if(mode==='create' || t.toLowerCase().includes('create image')){
+  let u=`https://image.pollinations.ai/prompt/${encodeURIComponent(t)}?nologo=true`;
+  document.getElementById('th').remove();
+  c.innerHTML+=`<div class="ai">Image for: ${t}<br><img src="${u}" style="width:100%;max-width:400px;border-radius:10px;margin-top:8px"></div>`; return;
+ }
+ let sys={chat:"You are BEYOND CHAT AI helpful assistant. Answer in English.", study:"You are Study teacher. Explain step by step in English with examples.", research:"You are Research expert. Give deep research facts points in English.", deep:"You are Deep Think mode. Think logically step by step then answer in English."}[mode];
+ try{
+  let r=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+GROQ_KEY},body:JSON.stringify({model:"llama-3.1-8b-instant",messages:[{role:"system",content:sys},{role:"user",content:t}]})});
+  let d=await r.json(); document.getElementById('th').remove();
+  c.innerHTML+=`<div class="ai">${d.choices[0].message.content.replace(/\n/g,'<br>')}</div>`;
+ }catch(e){ document.getElementById('th').innerHTML="Error: Add Groq API Key at top in GROQ_KEY. "+e; }
+}
 </script>
 </body>
 </html>
