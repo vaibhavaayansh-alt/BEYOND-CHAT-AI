@@ -1,16 +1,28 @@
 {
+  "id": "/BEYOND-CHAT-AI/",
   "name": "BEYOND CHAT AI",
   "short_name": "BEYOND AI",
-  "description": "BEYOND CHAT AI - Your Super Intelligent Assistant",
-  "start_url": "./index.html",
+  "start_url": "/BEYOND-CHAT-AI/",
+  "scope": "/BEYOND-CHAT-AI/",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "orientation": "any",
+  "background_color": "#080a12",
+  "theme_color": "#7657ff",
+  "categories": ["productivity", "ai"],
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/4712/4712109.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/4712/4712109.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide"
     }
   ]
 }
