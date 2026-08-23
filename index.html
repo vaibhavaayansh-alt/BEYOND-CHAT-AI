@@ -1,71 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BEYOND CHAT AI - PRO</title>
 <style>
-body{margin:0;background:#0e0e0e;color:#fff;font-family:sans-serif;display:flex}
-.sidebar{width:230px;background:#161616;height:100vh;padding:15px}
-.menu{padding:10px;border-radius:8px;cursor:pointer;margin:4px 0}
-.menu:hover{background:#2a2a2a}
-.active{background:#2a2a2a}
-.main{flex:1;padding:15px}
-.top button{background:#222;border:1px solid #333;color:#fff;padding:7px 14px;border-radius:20px;margin:3px;cursor:pointer}
-.top .activeBtn{background:#fff;color:#000}
-.chatBox{background:#1a1a1a;border-radius:12px;padding:15px;min-height:450px;overflow-y:auto}
-input{width:100%;padding:14px;background:#222;border:none;border-radius:10px;color:#fff;margin-top:10px}
-#send{width:100%;padding:14px;background:#fff;color:#000;font-weight:bold;border-radius:10px;margin-top:10px;border:none}
-.user{ text-align:right; margin:10px 0 } .user span{background:#fff;color:#000;padding:8px 12px;border-radius:14px}
-.ai{ background:#222;padding:10px;border-radius:10px;margin:10px 0 }
+*{box-sizing:border-box}body{margin:0;background:#0e0e0e;color:#fff;font-family:Inter,sans-serif;display:flex;height:100vh;overflow:hidden}
+.sidebar{width:250px;background:#161616;padding:15px;display:flex;flex-direction:column;overflow-y:auto}
+.logo{font-weight:900;font-size:18px;margin-bottom:15px}.menu{padding:11px 12px;border-radius:10px;cursor:pointer;margin:3px 0;color:#aaa;display:flex;gap:10px}
+.menu:hover{background:#222;color:#fff}.menu.active{background:#fff;color:#000;font-weight:600}
+.main{flex:1;display:flex;flex-direction:column;padding:15px;overflow:hidden}
+.top{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.top button{background:#1f1f1f;border:1px solid #333;color:#fff;padding:7px 14px;border-radius:20px;cursor:pointer}
+.top button.activeBtn{background:#fff;color:#000}
+.chatBox{flex:1;background:#1a1a1a;border-radius:14px;padding:15px;overflow-y:auto}
+.inputArea{display:flex;gap:8px;margin-top:10px}input{flex:1;padding:14px;background:#222;border:none;border-radius:12px;color:#fff;outline:none}
+#send{padding:14px 22px;background:#fff;color:#000;font-weight:bold;border-radius:12px;border:none;cursor:pointer}
+.user{text-align:right;margin:12px 0}.user span{background:#fff;color:#000;padding:9px 14px;border-radius:18px;display:inline-block;max-width:80%}
+.ai{background:#232323;padding:12px 14px;border-radius:12px;margin:10px 0;line-height:1.5;white-space:pre-wrap}
+.small{font-size:12px;color:#888;margin-top:5px}
 </style>
 </head>
 <body>
 <div class="sidebar">
-<h3>BEYOND CHAT AI</h3>
-<div class="menu active">💬 AI Chat</div>
-<div class="menu">📚 Study</div>
-<div class="menu">🔬 Research</div>
-<div class="menu">🧠 Deep Think</div>
-<div class="menu">🎨 Create / Image</div>
-<div class="menu">📁 Projects</div>
-<div class="menu">📚 Library / Memory</div>
-<div class="menu">🤖 Agents & Tools</div>
-<div class="menu">🎙️ Voice</div>
-<div class="menu">⚙️ Settings & Account</div>
+<div class="logo">BEYOND CHAT AI</div>
+<div class="menu active" onclick="switchPage('chat',this)">💬 AI Chat</div>
+<div class="menu" onclick="switchPage('study',this)">📚 Study</div>
+<div class="menu" onclick="switchPage('research',this)">🔬 Research</div>
+<div class="menu" onclick="switchPage('deep',this)">🧠 Deep Think</div>
+<div class="menu" onclick="switchPage('create',this)">🎨 Create / Image</div>
+<div class="menu" onclick="switchPage('projects',this)">📁 Projects</div>
+<div class="menu" onclick="switchPage('library',this)">📚 Library / Memory</div>
+<div class="menu" onclick="switchPage('agents',this)">🤖 Agents & Tools</div>
+<div class="menu" onclick="switchPage('voice',this)">🎙️ Voice</div>
+<div class="menu" onclick="switchPage('settings',this)">⚙️ Settings & Account</div>
+<div class="small">Version PRO - All Options Active</div>
 </div>
+
 <div class="main">
 <div class="top">
 <button onclick="setMode('study')" id="btn-study">Study</button>
 <button onclick="setMode('research')" id="btn-research">Research</button>
-<button onclick="setMode('deep')" id="btn-deep">Deep</button>
+<button onclick="setMode('deep')" id="btn-deep">Deep Think</button>
 <button onclick="setMode('create')" id="btn-create">Create</button>
 <button onclick="setMode('deep')" id="btn-think">Think</button>
 <button onclick="setMode('chat')" id="btn-chat" class="activeBtn">Chat</button>
 </div>
-<h3 id="title">AI Chat - Chat Mode</h3>
-<div class="chatBox" id="chat"><div class="ai">Hello! I am BEYOND CHAT AI PRO. All modes are active. Type your message in English.</div></div>
-<input id="msg" placeholder="Type your message here...">
+
+<h3 id="title" style="margin:5px 0">AI Chat - Chat Mode</h3>
+<div class="chatBox" id="chat"><div class="ai">Hello! I am BEYOND CHAT AI PRO.
+All options are active:
+- Study Mode for learning
+- Research Mode for deep facts
+- Deep Think Mode for logic
+- Create Mode for Image Generation
+- Projects to save your work
+- Library / Memory to remember chats
+- Agents & Tools
+- Voice Mode
+
+Type anything to start. All in English.</div></div>
+
+<div class="inputArea">
+<input id="msg" placeholder="Type your message here..." onkeydown="if(event.key==='Enter')send()">
 <button id="send" onclick="send()">Send</button>
 </div>
+</div>
+
 <script>
-let mode='chat';
 const GROQ_KEY="PASTE_YOUR_GROQ_KEY_HERE";
-function setMode(m){mode=m; document.getElementById('title').innerText="AI Chat - "+m.toUpperCase()+" Mode"; document.querySelectorAll('.top button').forEach(b=>b.classList.remove('activeBtn')); let b=document.getElementById('btn-'+m); if(b) b.classList.add('activeBtn');}
+let mode='chat';
+let memory=JSON.parse(localStorage.getItem('beyond_memory')||'[]');
+
+function switchPage(m, el){
+  document.querySelectorAll('.sidebar.menu').forEach(e=>e.classList.remove('active')); el.classList.add('active');
+  setMode(m);
+  if(m==='projects'){ showProjects(); }
+  if(m==='library'){ showLibrary(); }
+  if(m==='agents'){ showAgents(); }
+  if(m==='voice'){ startVoice(); }
+  if(m==='settings'){ showSettings(); }
+}
+function setMode(m){
+  mode=m;
+  document.getElementById('title').innerText="AI Chat - "+m.toUpperCase()+" Mode";
+  document.querySelectorAll('.top button').forEach(b=>b.classList.remove('activeBtn'));
+  let btn=document.getElementById('btn-'+m); if(btn) btn.classList.add('activeBtn');
+  if(m==='chat') document.getElementById('btn-chat').classList.add('activeBtn');
+}
+
 async function send(){
  let i=document.getElementById('msg'), c=document.getElementById('chat'), t=i.value.trim(); if(!t) return;
- c.innerHTML+=`<div class="user"><span>${t}</span></div>`; i.value=""; c.innerHTML+=`<div id="th" class="ai">BEYOND AI thinking in ${mode} mode...</div>`;
- if(mode==='create' || t.toLowerCase().includes('create image')){
-  let u=`https://image.pollinations.ai/prompt/${encodeURIComponent(t)}?nologo=true`;
-  document.getElementById('th').remove();
-  c.innerHTML+=`<div class="ai">Image for: ${t}<br><img src="${u}" style="width:100%;max-width:400px;border-radius:10px;margin-top:8px"></div>`; return;
+ if(GROQ_KEY.includes('PASTE_YOUR')){ alert('Please add GROQ API KEY in code at line GROQ_KEY'); return; }
+ c.innerHTML+=`<div class="user"><span>${t}</span></div>`; i.value='';
+ let th=document.createElement('div'); th.className='ai'; th.id='th'; th.innerText=`BEYOND AI thinking in ${mode} mode...`; c.appendChild(th); c.scrollTop=c.scrollHeight;
+ memory.push({role:'user',content:t}); localStorage.setItem('beyond_memory', JSON.stringify(memory));
+
+ if(mode==='create' || t.toLowerCase().includes('generate image') || t.toLowerCase().includes('create image')){
+   let url=`https://image.pollinations.ai/prompt/${encodeURIComponent(t)}?nologo=true&seed=${Date.now()}`;
+   th.remove(); c.innerHTML+=`<div class="ai">Image Created for: ${t}<br><img src="${url}" style="width:100%;max-width:420px;border-radius:12px;margin-top:10px"><br><a href="${url}" target="_blank" style="color:#fff">Download Image</a></div>`; return;
  }
- let sys={chat:"You are BEYOND CHAT AI helpful assistant. Answer in English.", study:"You are Study teacher. Explain step by step in English with examples.", research:"You are Research expert. Give deep research facts points in English.", deep:"You are Deep Think mode. Think logically step by step then answer in English."}[mode];
+
+ let systemPrompt = {
+   chat:"You are BEYOND CHAT AI PRO, helpful assistant. Answer in English clearly.",
+   study:"You are Study Tutor. Explain topic step by step in English with examples, formula, summary.",
+   research:"You are Research Expert. Give deep research, facts, sources, bullet points in English.",
+   deep:"You are Deep Think AI. Think step by step logically, pros cons, then final answer in English.",
+   projects:"You are Project Manager AI. Help user create projects in English.",
+   library:"You are Memory AI. Recall past chats.",
+   agents:"You are Agents AI. Explain how tools work.",
+   voice:"You are Voice AI. Give short voice-friendly answers in English.",
+   settings:"You are Settings Assistant."
+ }[mode] || "You are BEYOND CHAT AI PRO.";
+
  try{
-  let r=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+GROQ_KEY},body:JSON.stringify({model:"llama-3.1-8b-instant",messages:[{role:"system",content:sys},{role:"user",content:t}]})});
-  let d=await r.json(); document.getElementById('th').remove();
-  c.innerHTML+=`<div class="ai">${d.choices[0].message.content.replace(/\n/g,'<br>')}</div>`;
- }catch(e){ document.getElementById('th').innerHTML="Error: Add Groq API Key at top in GROQ_KEY. "+e; }
+  let r=await fetch("https://api.groq.com/openai/v1/chat/completions",{
+    method:"POST",
+    headers:{"Content-Type":"application/json","Authorization":"Bearer "+GROQ_KEY},
+    body:JSON.stringify({model:"llama-3.1-8b-instant", messages:[{role:"system",content:systemPrompt},{role:"user",content:t}]})
+  });
+  let d=await r.json(); th.remove();
+  if(d.error){ c.innerHTML+=`<div class="ai">Error: ${d.error.message} - Check API Key</div>`; }
+  else{
+    let ans=d.choices[0].message.content;
+    c.innerHTML+=`<div class="ai">${ans.replace(/\n/g,'<br>')}</div>`;
+    memory.push({role:'ai',content:ans}); localStorage.setItem('beyond_memory', JSON.stringify(memory));
+  }
+  c.scrollTop=c.scrollHeight;
+ }catch(e){ th.innerText="Error: "+e; }
+}
+
+function showProjects(){
+  let c=document.getElementById('chat');
+  c.innerHTML=`<div class="ai"><b>📁 Projects</b><br>- Project 1: Study Notes saved<br>- Project 2: Research Data<br>- Project 3: Created Images<br><br>Type "Create new project: [name]" to create.</div>`;
+}
+function showLibrary(){
+  let c=document.getElementById('chat');
+  let list=memory.map(m=>`${m.role}: ${m.content.substring(0,60)}...`).join('<br>') || 'No memory yet';
+  c.innerHTML=`<div class="ai"><b>📚 Library / Memory</b><br>${list}<br><br><button onclick="localStorage.clear();location.reload()" style="padding:6px 12px;border-radius:6px">Clear Memory</button></div>`;
+}
+function showAgents(){
+  document.getElementById('chat').innerHTML=`<div class="ai"><b>🤖 Agents & Tools</b><br>1. Study Agent - For learning<br>2. Research Agent - For facts<br>3. Image Creator Agent - Pollinations<br>4. Voice Agent - Speech to Text<br>5. Memory Agent - Saves chats<br><br>All agents are active.</div>`;
+}
+function showSettings(){
+  document.getElementById('chat').innerHTML=`<div class="ai"><b>⚙️ Settings & Account</b><br>User: vaibhavaayansh-alt<br>Site: https://vaibhavaayansh-alt.github.io/BEYOND-CHAT-AI/<br>Model: Groq Llama 3.1<br>Status: Public - Visible on Google<br>Language: English<br><br>API Key: ${GROQ_KEY.substring(0,10)}...</div>`;
+}
+function startVoice(){
+  let c=document.getElementById('chat');
+  c.innerHTML=`<div class="ai"><b>🎙️ Voice Mode</b><br>Click Allow Mic and Speak... Listening...</div>`;
+  try{
+    let rec=new (window.SpeechRecognition||window.webkitSpeechRecognition)();
+    rec.lang='en-US'; rec.start();
+    rec.onresult=(e)=>{ document.getElementById('msg').value=e.results[0][0].transcript; send(); };
+  }catch(e){ c.innerHTML+=`<div class="ai">Voice not supported in this browser. Use Chrome.</div>`; }
 }
 </script>
 </body>
