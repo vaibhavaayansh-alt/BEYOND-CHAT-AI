@@ -2,67 +2,93 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BEYOND CHAT AI</title>
-<link rel="manifest" href="manifest.json">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BEYOND CHAT AI - All Features</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#08080c;--card:#12121f;--border:#23233a;--p:#7c5cf0;--t:#ffffff;--m:#9aa0b5}
-*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,sans-serif}
-body{background:var(--bg);color:var(--t);min-height:100vh}
-header{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.logo{font-weight:900;letter-spacing:1px;font-size:18px;background:linear-gradient(90deg,#7c5cf0,#4fd1c5);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.btn{background:var(--p);color:#fff;border:0;padding:10px 18px;border-radius:12px;font-weight:700;cursor:pointer}
-.wrap{max-width:900px;margin:0 auto;padding:24px}
-.hero{text-align:center;padding:60px 10px 30px}
-.hero h1{font-size:52px;font-weight:900;letter-spacing:-2px;line-height:0.9}
-.hero h1 span{background:linear-gradient(90deg,#7c5cf0,#4fd1c5);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{color:var(--m);margin-top:16px;font-size:18px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px}
-.card h3{margin-bottom:8px}
-.card p{color:var(--m);font-size:14px;line-height:1.5}
-.input-box{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:12px;display:flex;gap:10px;margin-top:30px}
-.input-box input{flex:1;background:transparent;border:0;outline:0;color:#fff;font-size:16px;padding:10px}
-.tag{text-align:center;margin-top:20px;color:var(--m);font-size:13px;letter-spacing:2px}
-@media(max-width:700px){.hero h1{font-size:36px}.grid{grid-template-columns:1fr}}
+:root{--bg:#080a12;--panel:#111423;--panel2:#171b2e;--border:#232845;--text:#e6e8ff;--muted:#8b8fb5;--accent:#7c5cff;--accent2:#3df2d0}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;display:flex;height:100vh;overflow:hidden}
+#sidebar{width:280px;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:10;transition:0.3s}
+.logo{padding:22px 20px;font-family:'Space Grotesk';font-weight:700;font-size:18px;border-bottom:1px solid var(--border)}.logo span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav{flex:1;overflow-y:auto;padding:12px}.nav h4{font-size:11px;color:var(--muted);letter-spacing:1.5px;margin:18px 10px 8px;text-transform:uppercase}
+.nav button{width:100%;text-align:left;background:transparent;border:0;color:var(--muted);padding:11px 12px;border-radius:10px;font-size:14px;cursor:pointer;display:flex;gap:10px}
+.nav button:hover{background:var(--panel2);color:var(--text)}.nav button.active{background:rgba(124,92,255,0.15);color:var(--text);border:1px solid rgba(124,92,255,0.3)}
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{height:64px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:rgba(17,20,35,0.8);backdrop-filter:blur(10px)}
+.view{display:none;flex:1;overflow-y:auto;padding:24px}.view.active{display:block}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:16px}
+.input,select{width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:12px;padding:14px;color:var(--text);outline:none;margin-top:8px}
+.btn{background:linear-gradient(90deg,var(--accent),var(--accent2));border:0;color:#000;padding:11px 16px;border-radius:10px;cursor:pointer;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.style-card{border:1px solid var(--border);border-radius:12px;padding:12px;cursor:pointer;text-align:center;background:var(--panel2)}.style-card.active{border-color:var(--accent);background:rgba(124,92,255,0.15)}
+.chatBox{height:55vh;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:80%;padding:12px 14px;border-radius:14px;font-size:14px;line-height:1.5}.msg.user{align-self:flex-end;background:var(--accent)}.msg.ai{align-self:flex-start;background:var(--panel2);border:1px solid var(--border)}
+.mobileToggle{display:none;font-size:22px;cursor:pointer}@media(max-width:900px){#sidebar{position:fixed;left:-100%;height:100vh;width:100%}#sidebar.open{left:0}.mobileToggle{display:block}}
 </style>
 </head>
 <body>
-<header>
-<div class="logo">BEYOND CHAT AI</div>
-<button class="btn">Launch App</button>
-</header>
+<div id="sidebar">
+<div class="logo">∞ <span>BEYOND CHAT AI</span></div>
+<div class="nav">
+<h4>Core</h4>
+<button onclick="showView('chat')" class="active">💬 AI Chat</button>
+<button onclick="showView('study')">🎓 Study</button>
+<button onclick="showView('research')">🔎 Research</button>
+<button onclick="showView('create')">✨ Create</button>
+<button onclick="showView('think')">🧠 Think</button>
+<h4>Studio</h4>
+<button onclick="showView('image')">🖼️ Image Studio</button>
+<button onclick="showView('music')">🎵 Music Studio</button>
+<button onclick="showView('voice')">🎙️ Voice Mode</button>
+<button onclick="showView('projects')">📁 Projects</button>
+<button onclick="showView('library')">📚 Library</button>
+<h4>Intelligence</h4>
+<button onclick="showView('memory')">🧠 Memory</button>
+<button onclick="showView('agents')">🤖 Agents</button>
+<button onclick="showView('tools')">🔌 Tools/Plugins</button>
+<h4>System</h4>
+<button onclick="showView('settings')">⚙️ Settings</button>
+<button onclick="showView('account')">👤 Account UI</button>
+<button onclick="showView('deploy')">🌐 Deployment</button>
+</div>
+</div>
 
-<div class="wrap">
-<div class="hero">
-<h1>BEYOND CHAT<br><span>AI</span></h1>
-<p>Think beyond the chat. Your ultimate AI workspace for research, creation & more.</p>
+<div id="main">
+<div class="topbar"><div style="display:flex;gap:12px;align-items:center"><span class="mobileToggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</span><b>THINK BEYOND THE CHAT</b></div><div style="font-size:12px;color:#8b8fb5">SECURE • NO FAKE KEYS</div></div>
 
-<div class="input-box">
-<input placeholder="Ask anything beyond chat...">
-<button class="btn">➤</button>
-</div>
-<div class="tag">THINK BEYOND THE CHAT</div>
+<div id="chat" class="view active"><div class="card"><h3>💬 AI Chat - Backend Ready</h3><p style="color:var(--muted);font-size:12px">Frontend -> /api/chat -> Real AI. Key Vercel ENV me.</p></div><div id="chatBox" class="chatBox"></div><div style="display:flex;gap:10px;margin-top:10px"><input id="userInput" class="input" placeholder="Ask anything..."><button class="btn" onclick="sendChat()">Send</button></div></div>
+
+<div id="image" class="view"><div class="card"><h3>🖼️ Image Studio - All Styles</h3><input id="imgPrompt" class="input" placeholder="e.g. Virat Kohli hitting six, IPL final"></div><div class="card"><div class="grid"><div class="style-card active" onclick="selectStyle(this,'realistic')">📸 Realistic</div><div class="style-card" onclick="selectStyle(this,'animation')">🎬 Animation</div><div class="style-card" onclick="selectStyle(this,'anime')">🔥 Anime</div><div class="style-card" onclick="selectStyle(this,'ghibli')">🌿 Ghibli</div><div class="style-card" onclick="selectStyle(this,'cricket')">🏏 Cricket</div><div class="style-card" onclick="selectStyle(this,'3d')">🧊 3D</div><div class="style-card" onclick="selectStyle(this,'cyberpunk')">🌃 Cyberpunk</div><div class="style-card" onclick="selectStyle(this,'sketch')">✏️ Sketch</div></div><br><button class="btn" onclick="genImage()">Generate Image</button><div id="imgResult" style="margin-top:14px"></div></div></div>
+
+<div id="music" class="view"><div class="card"><h3>🎵 Music Studio - FREE</h3><p style="font-size:12px;color:var(--muted)">Backend: /api/music -> facebook/musicgen-small (Free HF)</p><input id="musicPrompt" class="input" placeholder="e.g. Energetic IPL stadium music, lo-fi drums"></div><div class="card"><div style="display:flex;gap:10px"><select id="musicMood"><option>Energetic</option><option>Lo-fi Chill</option><option>Cinematic</option><option>Cricket Stadium</option><option>Motivational</option></select><select id="musicDuration"><option>15 sec</option><option>30 sec</option><option>60 sec</option></select></div><br><button class="btn" onclick="genMusic()">🎵 Generate Music</button><div id="musicResult" style="margin-top:14px"></div></div></div>
+
+<div id="study" class="view"><div class="card"><h3>🎓 Study Mode</h3><p style="color:var(--muted)">PDF Upload -> Flashcards, Quiz. Future DB: Supabase Storage + pgvector</p></div><div class="grid"><div class="card">📄 Upload PDF</div><div class="card">🧠 Quiz</div><div class="card">🗂️ Flashcards</div></div></div>
+<div id="research" class="view"><div class="card"><h3>🔎 Research + Deep Research UI</h3><label><input type="checkbox" id="deepToggle"> Enable Deep Research (60s)</label><br><br><input class="input" placeholder="Research topic..."><br><br><button class="btn">Start Research</button></div></div>
+<div id="create" class="view"><div class="card"><h3>✨ Create</h3></div><div class="grid"><div class="card">📝 Blog</div><div class="card">💻 Code</div><div class="card">📧 Email</div><div class="card">📊 PPT</div></div></div>
+<div id="think" class="view"><div class="card"><h3>🧠 Think Mode</h3><div class="card" style="background:var(--panel2)">Thinking > Analyzing > Planning > Answer</div></div></div>
+<div id="voice" class="view"><div class="card"><h3>🎙️ Voice Mode</h3><button class="btn" onclick="startVoice()">🎙️ Start Listening</button></div></div>
+<div id="projects" class="view"><div class="card"><h3>📁 Projects</h3><p style="color:var(--muted)">Table: projects (id, user_id, name)</p></div></div>
+<div id="library" class="view"><div class="card"><h3>📚 Library</h3></div><div id="libList"></div></div>
+<div id="memory" class="view"><div class="card"><h3>🧠 Memory</h3><p style="color:var(--muted)">Long term memory via pgvector. Ex: Muzaffarpur, Learning AI, Wants Premium UI</p></div></div>
+<div id="agents" class="view"><div class="card"><h3>🤖 Agents - Multi-Agents Ready</h3><div class="grid"><div class="card">🔎 Research Agent</div><div class="card">✍️ Writing Agent</div><div class="card">🎨 Image Agent</div><div class="card">🎵 Music Agent</div></div></div></div>
+<div id="tools" class="view"><div class="card"><h3>🔌 Tools/Plugins</h3><p style="color:var(--muted)">Web Search, Calculator, Code Runner via /api/tools</p></div></div>
+<div id="settings" class="view"><div class="card"><h3>⚙️ Settings | 🔐 Security | 🗄️ DB | 🔑 Backend</h3><p style="font-size:12px;color:var(--muted);line-height:1.8"><b>Security:</b> No key in frontend, ENV only, Supabase RLS, Rate Limit via Upstash<br><b>DB:</b> users(id,email,plan), chats(id,user_id), messages(id,chat_id,role,content,embedding), projects, library<br><b>Backend:</b> /api/chat, /api/image, /api/music<br><b>Responsive:</b> Mobile + Tablet + Desktop 100%</p></div></div>
+<div id="account" class="view"><div class="card"><h3>👤 Account - Free / Plus / Pro</h3><div class="grid"><div class="card">Free: 20 msgs<br><br><button class="btn" style="background:transparent;border:1px solid var(--border);color:var(--muted)">Current</button></div><div class="card" style="border-color:var(--accent)">Plus $10/mo<br><br><button class="btn">Upgrade</button></div><div class="card">Pro $25/mo<br><br><button class="btn">Upgrade</button></div></div></div></div>
+<div id="deploy" class="view"><div class="card"><h3>🌐 Deployment - No Fake Deploy</h3><p style="font-size:12px;color:var(--muted);line-height:1.7">GitHub Pages = Only UI. Real AI = Vercel<br>1. Push to GitHub<br>2. vercel.com > Import Repo<br>3. Add ENV: GROQ_API_KEY + HF_TOKEN (free from huggingface.co)<br>4. Deploy -> /api/* live<br>Fake keys is code me kahin nahi hai.</p></div></div>
 </div>
 
-<div class="grid">
-<div class="card">
-<h3>🔍 Deep Research Hub</h3>
-<p>Search, summarize and analyze any topic with advanced AI agents. Beyond simple answers.</p>
-</div>
-<div class="card">
-<h3>⚡ Super Workspace</h3>
-<p>All your AI tools, chats, files and ideas in one beautiful dark workspace.</p>
-</div>
-<div class="card">
-<h3>🧠 Think Mode</h3>
-<p>AI that doesn't just reply, but thinks, plans and executes beyond the chat.</p>
-</div>
-<div class="card">
-<h3>🚀 Built for Future</h3>
-<p>Minimal, fast, and powerful. Designed for the next generation of creators.</p>
-</div>
-</div>
-</div>
+<script>
+let selectedStyle='realistic';
+function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));if(window.innerWidth<900)document.getElementById('sidebar').classList.remove('open')}
+function selectStyle(el,s){document.querySelectorAll('.style-card').forEach(c=>c.classList.remove('active'));el.classList.add('active');selectedStyle=s}
+const chatBox=document.getElementById('chatBox');
+function addMsg(t,w){const d=document.createElement('div');d.className='msg '+w;d.innerText=t;chatBox.appendChild(d);chatBox.scrollTop=chatBox.scrollHeight}
+async function sendChat(){const i=document.getElementById('userInput');const t=i.value.trim();if(!t)return;addMsg(t,'user');i.value='';try{const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t})});if(!r.ok)throw new Error();const d=await r.json();addMsg(d.reply,'ai')}catch{setTimeout(()=>addMsg('🔐 BACKEND NOT CONNECTED YET\nTumne bola: '+t+'\nYe reply Vercel pe GROQ_API_KEY lagane ke baad /api/chat se ayega. Deploy tab dekho.','ai'),500)}}
+document.getElementById('userInput').addEventListener('keypress',e=>{if(e.key==='Enter')sendChat()})
+addMsg('Welcome to BEYOND CHAT AI 🚀\nSab features add hai - Image Styles + Music Studio. Backend connect karo to real me chalega.','ai')
+async function genImage(){const p=document.getElementById('imgPrompt').value;const r=document.getElementById('imgResult');if(!p)return alert('Prompt likho');r.innerHTML='Generating '+selectedStyle+'... ⏳';try{const res=await fetch('/api/image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:p,style:selectedStyle})});if(!res.ok)throw new Error();const d=await res.json();r.innerHTML=`<img src="${d.url}" style="width:100%;border-radius:12px">`}catch{r.innerHTML=`<div class="card" style="background:var(--panel2)">Backend not connected.<br><b>Final Prompt:</b> ${p}, ${selectedStyle} style, 8k<br><img src="https://picsum.photos/seed/${selectedStyle}${Date.now()}/600/400" style="width:100%;border-radius:12px;margin-top:10px"></div>`}}
+async function genMusic(){const p=document.getElementById('musicPrompt').value;const m=document.getElementById('musicMood').value;const r=document.getElementById('musicResult');if(!p)return alert('Prompt likho');r.innerHTML='Composing '+m+'... 🎵⏳';try{const res=await fetch('/api/music',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:p+', '+m})});if(!res.ok)throw new Error();const b=await res.blob();const u=URL.createObjectURL(b);r.innerHTML=`<audio controls src="${u}" style="width:100%"></audio>`}catch{r.innerHTML=`<div class="card" style="background:var(--panel2)">Backend not connected. Demo audio:<br><audio controls style="width:100%;margin-top:8px"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"></audio><br><small style="color:var(--muted)">Real ke liye Vercel pe HF_TOKEN lagao -> facebook/musicgen-small</small></div>`}}
+function startVoice(){const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R)return alert('Support nahi');const r=new R();r.onresult=e=>{document.getElementById('userInput').value=e.results[0][0].transcript;showView('chat');document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById('chat').classList.add('active')};r.start()}
+</script>
 </body>
 </html>
