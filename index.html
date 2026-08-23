@@ -2,56 +2,67 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OUR AI WORKSPACE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BEYOND CHAT AI</title>
 <link rel="manifest" href="manifest.json">
 <style>
-:root{--bg:#0a0a12;--card:#12121f;--border:#23233a;--p:#7c5cf0;--t:#fff;--m:#9aa0b5}
+:root{--bg:#08080c;--card:#12121f;--border:#23233a;--p:#7c5cf0;--t:#ffffff;--m:#9aa0b5}
 *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,sans-serif}
 body{background:var(--bg);color:var(--t);min-height:100vh}
-header{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--bg);z-index:10}
-.logo{font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#7c5cf0,#4fd1c5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:20px}
+header{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:900;letter-spacing:1px;font-size:18px;background:linear-gradient(90deg,#7c5cf0,#4fd1c5);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .btn{background:var(--p);color:#fff;border:0;padding:10px 18px;border-radius:12px;font-weight:700;cursor:pointer}
 .wrap{max-width:900px;margin:0 auto;padding:24px}
-.hero{text-align:center;padding:40px 10px}
-.hero h1{font-size:42px;line-height:1.1;margin-bottom:12px}
-.hero p{color:var(--m);max-width:600px;margin:0 auto 20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:20px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px}
+.hero{text-align:center;padding:60px 10px 30px}
+.hero h1{font-size:52px;font-weight:900;letter-spacing:-2px;line-height:0.9}
+.hero h1 span{background:linear-gradient(90deg,#7c5cf0,#4fd1c5);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--m);margin-top:16px;font-size:18px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:22px}
 .card h3{margin-bottom:8px}
 .card p{color:var(--m);font-size:14px;line-height:1.5}
-.tag{display:inline-block;background:#1e1e33;color:#a89cff;padding:4px 10px;border-radius:99px;font-size:12px;margin-bottom:10px}
-input,textarea{width:100%;background:#0f0f1c;border:1px solid var(--border);color:#fff;padding:12px;border-radius:12px;margin-top:10px}
-.row{display:flex;gap:10px;margin-top:12px}
-footer{text-align:center;padding:30px;color:var(--m);font-size:12px;border-top:1px solid var(--border);margin-top:30px}
+.input-box{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:12px;display:flex;gap:10px;margin-top:30px}
+.input-box input{flex:1;background:transparent;border:0;outline:0;color:#fff;font-size:16px;padding:10px}
+.tag{text-align:center;margin-top:20px;color:var(--m);font-size:13px;letter-spacing:2px}
+@media(max-width:700px){.hero h1{font-size:36px}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header>
-<div class="logo">OUR AI WORKSPACE</div>
-<a class="btn" href="#" onclick="alert('Install: Chrome menu > Add to Home screen')">Install App</a>
+<div class="logo">BEYOND CHAT AI</div>
+<button class="btn">Launch App</button>
 </header>
+
 <div class="wrap">
 <div class="hero">
-<h1>AI Study + Research + Create</h1>
-<p>Students ke liye banaya gaya ek hi jagah — AI se padho, research karo, notes banao, project create karo.</p>
-<button class="btn" onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">Explore Tools</button>
+<h1>BEYOND CHAT<br><span>AI</span></h1>
+<p>Think beyond the chat. Your ultimate AI workspace for research, creation & more.</p>
+
+<div class="input-box">
+<input placeholder="Ask anything beyond chat...">
+<button class="btn">➤</button>
+</div>
+<div class="tag">THINK BEYOND THE CHAT</div>
 </div>
 
-<div id="tools" class="grid">
-<div class="card"><span class="tag">STUDY</span><h3>AI Study Assistant</h3><p>Kisi bhi topic ko simple Hindi/English me samjho. Question pucho, turant answer.</p><textarea id="q" placeholder="Example: Quantum computing kya hai?"></textarea><div class="row"><button class="btn" onclick="doStudy()">Ask AI</button></div><p id="ans" style="margin-top:10px;color:#fff"></p></div>
-
-<div class="card"><span class="tag">RESEARCH</span><h3>Research Hub</h3><p>Topic likho, research points auto generate honge. Project & notes ke liye best.</p><input id="rt" placeholder="Example: Chandrayaan 3"><div class="row"><button class="btn" onclick="doResearch()">Research</button></div><p id="rans" style="margin-top:10px;white-space:pre-line"></p></div>
-
-<div class="card"><span class="tag">CREATE</span><h3>Create & Build</h3><p>AI se presentation, essay, code, ideas banao. Students ke liye fast creator.</p><textarea id="ct" placeholder="Mujhe AI par 5 slide ka content banao"></textarea><div class="row"><button class="btn" onclick="doCreate()">Create</button></div><p id="cans" style="margin-top:10px;white-space:pre-line"></p></div>
+<div class="grid">
+<div class="card">
+<h3>🔍 Deep Research Hub</h3>
+<p>Search, summarize and analyze any topic with advanced AI agents. Beyond simple answers.</p>
 </div>
-
-<div class="card" style="margin-top:16px"><h3>About OUR AI WORKSPACE</h3><p>OUR AI WORKSPACE ek student-first AI platform hai. Hamara mission hai har student ko AI ka superpower dena — padhai me, research me aur kuch naya banane me. Made in India, for Students of India. Version 1.0 Live.</p></div>
+<div class="card">
+<h3>⚡ Super Workspace</h3>
+<p>All your AI tools, chats, files and ideas in one beautiful dark workspace.</p>
 </div>
-<footer>© 2026 OUR AI WORKSPACE • Made for Students • vaibhavaayansh-alt</footer>
-
-<script>
-// Simple offline AI-like responses (demo)
-function doStudy(){
-let q=document.getElementById('q').value||'AI kya hai?';
-document.getElementById('ans').innerHTML='🔍 <b>Answer for:</b> '+q+'<br><br>👉 '+q+' ek important topic hai. Isko step-by-step samjho:<br>1. Basic definition: '+q+' ka matlab simple shabdo me...<br>2. Example se samjho: Real life me iska use...<br>3. Exam point: Iske 3 main fayde...<br><br>💡 Tip: Isse ap
+<div class="card">
+<h3>🧠 Think Mode</h3>
+<p>AI that doesn't just reply, but thinks, plans and executes beyond the chat.</p>
+</div>
+<div class="card">
+<h3>🚀 Built for Future</h3>
+<p>Minimal, fast, and powerful. Designed for the next generation of creators.</p>
+</div>
+</div>
+</div>
+</body>
+</html>
