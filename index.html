@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BEYOND CHAT AI</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b0b0c">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#0b0b0c;--sidebar:#111112;--border:#2b2b2e;--text:#f5f5f5}
@@ -30,17 +33,14 @@ body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-ser
 .user-message{align-self:flex-end;background:#29292b;padding:11px 15px;border-radius:17px;white-space:pre-wrap}
 .ai-message{align-self:flex-start;width:100%}
 .ai-message pre{background:#151516;border:1px solid #29292e;padding:14px;border-radius:10px;overflow-x:auto;margin:10px 0}
-.ai-message code{background:#19191a;padding:2px 5px;border-radius:5px}
 .copy-btn{font-size:11px;padding:5px 10px;border-radius:8px;border:1px solid #2b2b2e;background:#19191a;color:#999;cursor:pointer;margin-top:8px}
 .thinking{display:flex;gap:4px;padding:8px 0}.dot{width:6px;height:6px;background:#777;border-radius:50%;animation:bounce 1.4s infinite}.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
 @keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-6px);opacity:1}}
 .composer-wrap{position:fixed;bottom:0;left:270px;right:0;padding:20px;background:linear-gradient(transparent,var(--bg) 35%);z-index:10}
 .composer{max-width:820px;margin:auto;background:#202022;border:1px solid #363638;border-radius:20px;padding:8px 15px;display:flex;gap:10px;align-items:center}
 .composer input{flex:1;background:transparent;border:0;outline:none;color:#fff;padding:10px 0;font-size:14px}
-.composer input::placeholder{color:#777}
 .send{width:35px;height:35px;border-radius:50%;border:0;background:#fff;color:#000;font-weight:800;cursor:pointer}
-.send:disabled{opacity:.5}
-@media(max-width:850px){.sidebar{left:-280px}.sidebar.open{left:0}.main{margin-left:0}.menu{display:block}.composer-wrap{left:0}.cards{grid-template-columns:1fr}.hero h1{font-size:34px}.message{max-width:90%}}
+@media(max-width:850px){.sidebar{left:-280px}.sidebar.open{left:0}.main{margin-left:0}.menu{display:block}.composer-wrap{left:0}.cards{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -51,7 +51,7 @@ body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-ser
 <div class="history" id="history"></div>
 </aside>
 <main class="main">
-<header class="topbar"><button class="menu" onclick="toggleSidebar()">☰</button><b>BEYOND CHAT AI</b><span style="margin-left:auto;font-size:10px;color:#777">FINAL COMBO • NO REDIRECT</span></header>
+<header class="topbar"><button class="menu" onclick="toggleSidebar()">☰</button><b>BEYOND CHAT AI</b><span style="margin-left:auto;font-size:10px;color:#777">PWA • NO REDIRECT</span></header>
 <section class="content" id="content">
 <div class="hero" id="hero"><div class="logo-orb">◈</div><h1>Think beyond the chat.</h1><p>Ask anything. Create anything.</p></div>
 <div class="chat" id="chat"></div>
@@ -65,10 +65,11 @@ body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-ser
 </main>
 <div class="composer-wrap"><div class="composer"><input id="input" autocomplete="off" placeholder="Message Beyond Chat AI..."><button class="send" id="sendBtn" onclick="sendMessage()">↑</button></div></div>
 <script>
+if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
 let conversations=JSON.parse(localStorage.getItem("beyond_conversations")||"[]");
 let currentId=localStorage.getItem("beyond_current")||null;
 const chatEl=document.getElementById("chat"),hero=document.getElementById("hero"),cards=document.getElementById("cards"),historyEl=document.getElementById("history"),input=document.getElementById("input"),sendBtn=document.getElementById("sendBtn");
-function md(text){if(!text)return"";let s=String(text).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");s=s.replace(/```([\s\S]*?)```/g,"<pre><code>$1</code></pre>").replace(/`([^`]+)`/g,"<code>$1</code>").replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>").replace(/\n/g,"<br>");return s}
+function md(t){if(!t)return"";let s=String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");s=s.replace(/```([\s\S]*?)```/g,"<pre><code>$1</code></pre>").replace(/`([^`]+)`/g,"<code>$1</code>").replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>").replace(/\n/g,"<br>");return s}
 function save(){localStorage.setItem("beyond_conversations",JSON.stringify(conversations));if(currentId)localStorage.setItem("beyond_current",currentId)}
 function getCurrent(){return conversations.find(c=>c.id===currentId)}
 function renderHistory(){historyEl.innerHTML="";conversations.slice().reverse().forEach(c=>{const d=document.createElement("div");d.className="history-item"+(c.id===currentId?" active":"");d.textContent=c.title||"New chat";d.onclick=()=>openChat(c.id);historyEl.appendChild(d)})}
@@ -78,13 +79,13 @@ function newChat(){currentId=Date.now().toString();conversations.push({id:curren
 async function askAIWithContext(allMessages){
   try{
     const r=await fetch("https://ai.hackclub.com/proxy/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"qwen/qwen3-32b",messages:allMessages})});
-    if(r.ok){const j=await r.json();return j.choices?.[0]?.message?.content}
+    if(r.ok){const j=await r.json(); const c=j.choices?.[0]?.message?.content; if(c) return c;}
   }catch(e){}
   try{
-    const r=await fetch("https://gen.pollinations.ai/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"openai-fast",messages:allMessages,seed:Math.floor(Math.random()*1000)})});
-    if(r.ok){const j=await r.json();return j.choices?.[0]?.message?.content}
+    const r=await fetch("https://gen.pollinations.ai/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"openai-fast",messages:allMessages})});
+    if(r.ok){const j=await r.json(); const c=j.choices?.[0]?.message?.content; if(c) return c;}
   }catch(e){}
-  return "Bhai server busy hai, 2 sec baad fir try kar.";
+  return "Server thoda busy hai bhai, 2 second baad fir try kar.";
 }
 async function sendMessage(){const text=input.value.trim();if(!text)return;if(!currentId||!getCurrent()){currentId=Date.now().toString();conversations.push({id:currentId,title:text.slice(0,32),messages:[]})}const conv=getCurrent();if(conv.messages.length===0)conv.title=text.slice(0,32);hero.style.display="none";cards.style.display="none";addMessageUI(text,"user");conv.messages.push({role:"user",content:text});input.value="";save();renderHistory();const think=document.createElement("div");think.className="message ai-message";think.innerHTML='<div class="thinking"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';chatEl.appendChild(think);sendBtn.disabled=true;try{const ans=await askAIWithContext(conv.messages);think.remove();addMessageUI(ans,"ai");conv.messages.push({role:"assistant",content:ans});save();renderHistory()}catch(e){think.remove();addMessageUI("Error: "+e.message,"ai")}finally{sendBtn.disabled=false;input.focus()}}
 function quickAsk(t){input.value=t;sendMessage()}
